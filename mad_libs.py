@@ -37,8 +37,7 @@ def create_story(choice, words):
         v = '\033[31m' + words[2] + '\033[0m'
         a2 = '\033[31m' + words[3] + '\033[0m'
         n2 = '\033[31m' + words[4] + '\033[0m'
-        temp = story_temps[1]
-        templ = Template(temp)
+        templ = Template(story_temps[1])
         print(templ.safe_substitute(noun1=n, adj1=a, verb=v, adj2=a2, noun2=n2))
 
 
