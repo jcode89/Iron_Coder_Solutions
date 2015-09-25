@@ -10,7 +10,7 @@ def main():
         vocab = words.split()
         create_story(choice, vocab)
     elif choice == "story2":
-        print("In order, type a noun an adjective a verb an adjective a noun.")
+        print("In order, type a noun an adjective another noun a verb an adjective and a noun.")
         words = input("> ")
         vocab = words.split()
         create_story(choice, vocab)
@@ -20,7 +20,7 @@ def main():
 def create_story(choice, words):
     story_temps = ["""\tSo this will be a ${adj} story about ${noun}!
                   \r\tWhy is ${pronoun} ${adverb} ${verb}ing? \n\tIsn't this absolutely amazing!""",
-                 """\t${noun1} will be doing ${adj1} things. ${verb} is ${adj2} for ${noun2}."""]
+                 """\tMost ${noun1} will be doing ${adj1} things. The ${noun2} ${verb} is ${adj2} for ${noun3}."""]
     if choice == "story1":
         # The code '\033[31m' is the start sequence
         # and color code for the text.
@@ -35,11 +35,12 @@ def create_story(choice, words):
     elif choice == "story2":
         n = '\033[31m' + words[0] + '\033[0m'
         a = '\033[31m' + words[1] + '\033[0m'
-        v = '\033[31m' + words[2] + '\033[0m'
-        a2 = '\033[31m' + words[3] + '\033[0m'
-        n2 = '\033[31m' + words[4] + '\033[0m'
+        n2 = '\033[31m' + words[2] + '\033[0m'
+        v = '\033[31m' + words[3] + '\033[0m'
+        a2 = '\033[31m' + words[4] + '\033[0m'
+        n3 = '\033[31m' + words[5] + '\033[0m'
         templ = Template(story_temps[1])
-        print(templ.safe_substitute(noun1=n, adj1=a, verb=v, adj2=a2, noun2=n2))
+        print(templ.safe_substitute(noun1=n, adj1=a, noun2=n2, verb=v, adj2=a2, noun3=n3))
 
 
 if __name__ == '__main__':
