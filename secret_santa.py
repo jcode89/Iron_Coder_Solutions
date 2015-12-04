@@ -1,5 +1,5 @@
 from random import shuffle
-
+from sys import exit
 def grab_participants(name_of_file):
     with open(name_of_file, 'r') as ssf:
         the_people = ssf.read().splitlines()
@@ -16,25 +16,24 @@ def your_match_maker(your_name):
 
 # Solves Level Two
 def match_maker():
-    our_list = grab_participants('secret_santa_participants.txt')
-    list_one = []
-    list_two = []
-    # Splits up the original list in two seperate lists
-    for num in range(len(our_list)):
-        if (our_list[num] not in list_one )and (our_list[num] not in list_two):
-            try:
-                list_one.append(our_list[num])
-                list_two.append(our_list[num+1])
-            except IndexError:
-                list_one.append(our_list[num])
-    # Shuffles the lists up
+    list_one = grab_participants('secret_santa_participants.txt')
+    list_two = grab_participants('secret_santa_participants.txt')
+
+    the_answer = []
     shuffle(list_one)
     shuffle(list_two)
-    for index in range(int(len(our_list)/2)+1):
+    for num in range(len(list_one)):
         try:
-            print("%s's secret santa is %s" % (list_one[index], list_two[index]))
+            if (list_one[num] != list_two[num]) and ((list_one[num] or list_two[num]) not in the_answer):
+                # Makes a list of tuples.
+                the_answer.append((list_one[num], list_two[num]))
         except IndexError:
-            print("%s's secret santa is %s" % (list_one[index], list_two[index-1]))
+            pass
+    if len(list_one) == len(the_answer):
+        for names in the_answer:
+            print("%s is paired with %s." % names)
+    elif (len(list_one) != len(the_answer)):
+        match_maker()
 
 # Solves Level Three
 def house_match_maker():
