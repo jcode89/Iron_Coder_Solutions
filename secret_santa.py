@@ -31,7 +31,7 @@ def match_maker():
             pass
     if len(list_one) == len(the_answer):
         for names in the_answer:
-            print("%s is paired with %s." % names)
+            print("%s gets a gift for %s." % names)
     elif (len(list_one) != len(the_answer)):
         match_maker()
 
