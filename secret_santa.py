@@ -1,5 +1,5 @@
 from random import shuffle
-from sys import exit
+
 def grab_participants(name_of_file):
     with open(name_of_file, 'r') as ssf:
         the_people = ssf.read().splitlines()
