@@ -14,27 +14,44 @@ def your_match_maker(your_name):
             print("Your partner is %s" % people )
             break
 
+def pop_other(participants, not_me):
+    """
+    Pops a name from participants that is not not_me
+
+    Raises ValueError if only choice is the prohibited value
+    """
+    if len(participants) == 1 and participants[0] == not_me:
+        raise ValueError("Prohibited value is the only remaining value")
+
+    clean_participants = [person for person in participants if person != not_me]
+    selected = clean_participants[0]
+
+    participants.remove(selected)
+    return selected
+
+
 # Solves Level Two
 def match_maker():
     list_one = grab_participants('secret_santa_participants.txt')
-    list_two = grab_participants('secret_santa_participants.txt')
+    list_two = list(list_one)
 
     the_answer = []
-    shuffle(list_one)
+    list_one
     shuffle(list_two)
-    for num in range(len(list_one)):
+
+    for index, name in enumerate(list_one):
         try:
-            if (list_one[num] != list_two[num]) and ((list_one[num] or list_two[num]) not in the_answer):
-                # Makes a list of tuples.
-                the_answer.append((list_one[num], list_two[num]))
-        except IndexError:
-            pass
-    if len(list_one) == len(the_answer):
-        for names in the_answer:
-            print("%s gets a gift for %s." % names)
-        return the_answer
-    elif (len(list_one) != len(the_answer)):
-        match_maker()
+            receiver = pop_other(list_two, name)
+        except ValueError:
+            # There is a rare case when the only value left is the prohibited value.
+            # In this case, try again
+            return match_maker()
+
+        the_answer.append((name, receiver))
+
+    for names in the_answer:
+        print("%s gets a gift for %s." % names)
+    return the_answer
 
 # Solves Level Three
 def house_match_maker():
