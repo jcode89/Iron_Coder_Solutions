@@ -32,29 +32,38 @@ def match_maker():
     if len(list_one) == len(the_answer):
         for names in the_answer:
             print("%s gets a gift for %s." % names)
+        return the_answer
     elif (len(list_one) != len(the_answer)):
         match_maker()
 
 # Solves Level Three
 def house_match_maker():
-    our_list = grab_participants('secret_santa_participants.txt')
-    families = []
-    checked_families = []
-    # Sorts the families into households
-    for first in our_list:
-        household = []
-        for names in our_list:
-            if (first[-4:] == names[-4:]) and (names not in household):
-                household.append(names)
-        families.append(household)
-    for overcrowd in families:
-        if overcrowd not in checked_families:
-            checked_families.append(overcrowd)
-    # Matches non-family with non-family
-    # There are seven families, I may be able to use zip(*checked_families)
-    # to seperate the nested lists, however, I am not sure.
-
-
+    families_one = []
+    families_two = []
+    response = []
+    with open('secret_santa_participants.txt', 'r') as ssf:
+        # Creates two lists of tuples (firstname, lastname)
+        for names in ssf:
+            (key, value) = names.split()
+            families_one.append((key, value))
+            families_two.append((key, value))
+    shuffle(families_one)
+    shuffle(families_two)
+    # Some recursion to ensure that our list has the correct number of people
+    # and that the last names do not match.
+    for index in range(len(families_one)):
+        try:
+            if ((families_one[index][1] != families_two[index][1]) and
+                ((families_one[index] or families_two[index]) not in response)):
+                response.append((families_one[index], families_two[index]))
+        except IndexError:
+            pass
+    if len(response) == len(families_one):
+        for names in response:
+            print("%s gets a gift for %s" % names)
+        return response
+    elif len(response) != len(families_one):
+        house_match_maker()
 
 if __name__ == '__main__':
     print("Level One Solution:")
