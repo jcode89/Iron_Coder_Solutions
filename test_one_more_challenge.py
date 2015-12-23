@@ -12,6 +12,13 @@ class TestOneMoreChallenge(unittest.TestCase):
     def test_level_three(self):
         self.assertEqual(['ab124', 'gh01', 'ijk9', 'lmn13', 'cd100ef12'],
                         add_one(['ab123', 'gh00', 'ijk8', 'lmn12', 'cd99ef11']))
+    def test_example_one(self):
+        self.assertEqual([2, 3, 4], add_one([1, 2, 3]))
+    def test_example_two(self):
+        self.assertEqual([2, 4], add_one(['1', 'b', '3']))
+    def test_example_three(self):
+        self.assertEqual(['ab13', 'a6', 'b24a52'],
+                        add_one(['ab12', 'a5', 'b23a51']))
 
 if __name__ == '__main__':
     unittest.main()
