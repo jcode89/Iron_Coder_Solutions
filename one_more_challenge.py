@@ -3,7 +3,7 @@ Solves http://www.codenewbie.org/blogs/just-one-more .
 """
 import re
 
-def int_to_int(some_list):    
+def int_to_int(some_list):
     return [some_list[index] + 1 for index in range(len(some_list))]
 
 def str_to_int(some_list):
@@ -19,9 +19,9 @@ def str_to_str(some_list):
     result = []
     sa = []
     sn = []
-    a = []
+    a0 = []
     a1 =[]
-    n = []
+    n0 = []
     n1 = []
     numbers = re.compile(r"\d+")
     letters = re.compile(r"[a-z]+")
@@ -48,7 +48,10 @@ def str_to_str(some_list):
                     pass
             else:
                 # This handles everything else that isn't odd in some way.
-                a.extend([ a for a in letters.findall(some_list[index])])
-                n.extend([str(int(i) + 1) for i in numbers.findall(some_list[index])])
-                result.extend([a[i]+n[i] for i in range(len(a)) if a[i]+n[i] not in result])
+                a0.extend([ a for a in letters.findall(some_list[index])])
+                n0.extend([str(int(i) + 1) for i in numbers.findall(some_list[index])])
+                try:
+                    result.extend([a0[i]+n0[i] for i in range(len(a0)) if a0[i]+n0[i] not in result])
+                except IndexError:
+                    pass
     return result
