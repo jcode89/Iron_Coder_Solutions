@@ -9,15 +9,13 @@ def int_to_int(some_list):
     return some_list
 
 def str_to_int(some_list):
-    new_list = []
-    # This checks if the first list item is either all numbers or all letters
-    if re.match(r'[0-9]{1,}',some_list[0]) or re.match(r'[a-z]{2,}[a-z]',some_list[0]):# == "1":
-        for index in range(len(some_list)):
-            # checks for positive and negative numbers.
-            items = re.findall('(-?\d+)', some_list[index])
-            if items:# Checks to make sure it is not None
-                new_list.append(int(items[0])+1)
-        return new_list
+    new_list = []    
+    for index in range(len(some_list)):
+        # checks for positive and negative numbers.
+        items = re.findall('(-?\d+)', some_list[index])
+        if items:# Checks to make sure it is not None
+            new_list.append(int(items[0])+1)
+    return new_list
 
 def str_to_str(some_list):
     new_list = []
