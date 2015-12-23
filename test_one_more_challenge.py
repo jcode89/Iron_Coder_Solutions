@@ -31,8 +31,8 @@ class TestOneMoreChallenge(unittest.TestCase):
             str_to_str(['ab123', 'ab12','gh00', 'ijk8', 'a5','lmn12', 'b23a51','cd99ef11']))
 
     def test_str_to_int_last_time(self):
-        self.assertEqual([2323, 789, 5, 67, 99],
-                        str_to_int(['harry', '2322', '788', 'rob', '4', '66', '98', 'slappy']))
+        self.assertEqual([2323, -787, 5, 67, 99],
+                        str_to_int(['harry', '2322', '-788', 'rob', '4', '66', '98', 'slappy']))
 
 if __name__ == '__main__':
     unittest.main()
