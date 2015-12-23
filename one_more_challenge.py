@@ -3,13 +3,11 @@ Solves http://www.codenewbie.org/blogs/just-one-more .
 """
 import re
 
-def int_to_int(some_list):
-    for index in range(len(some_list)):
-        some_list[index] = some_list[index] + 1
-    return some_list
+def int_to_int(some_list):    
+    return [some_list[index] + 1 for index in range(len(some_list))]
 
 def str_to_int(some_list):
-    new_list = []    
+    new_list = []
     for index in range(len(some_list)):
         # checks for positive and negative numbers.
         items = re.findall('(-?\d+)', some_list[index])
@@ -18,42 +16,39 @@ def str_to_int(some_list):
     return new_list
 
 def str_to_str(some_list):
-    new_list = []
-    for item in some_list:
-        if re.match('[a-z]{2}[0-9]{3}', item) or re.match('[a-z]{2}[0-9]{2}', item):
-            # Sperate letters and numbers
-            letters = item[0:2]
-            numbers = item[2:]
-            if numbers == "00":
-                numbers = item[-1]
-                # Change numbers to type int to do the math than back
-                # to type str before adding them to new_list.
-                new_list.append(letters + str(0) + str(int(numbers) + 1))
-            # To catch and handle the tricky part of level 3.
-            elif re.match('[0-9]{2}[a-z]{2}[0-9]{2}' ,numbers):
-                first = item[0:2]
-                nums = item[2:4]
-                more_letters = item[4:6]
-                more_nums = item[6:]
-                new_list.append(first + str(int(nums) + 1) + more_letters + str(int(more_nums) + 1))
-            # If no special cases are needed, we can proceed normally.
+    result = []
+    sa = []
+    sn = []
+    a = []
+    a1 =[]
+    n = []
+    n1 = []
+    numbers = re.compile(r"\d+")
+    letters = re.compile(r"[a-z]+")
+    for index in range(len(some_list)):
+        # Handles the odd ball cases like 'cd100ef12'.
+        if re.match(r'[a-z]+[0-9]+[a-z]+[0-9]+', some_list[index]):
+            sa.extend([a for a in letters.findall(some_list[index])])
+            sn.extend([str(int(i) + 1).zfill(2) for i in numbers.findall(some_list[index])])
+            try:
+                for i in range(len(sa)):
+                    if sa[i]+sn[i]+sa[i+1]+sn[i+1] not in result:
+                        if i % 2 ==0:# To make sure every other item in the list gets in.
+                            result.extend([sa[i]+sn[i]+sa[i+1]+sn[i+1]])
+            except IndexError:
+                pass
+        else:
+            # Handles cases where the number is 01 or 09.
+            if re.match(r'[a-z]+[0]+', some_list[index]):
+                a1.extend([a for a in letters.findall(some_list[index])])
+                n1.extend([str(int(i) + 1).zfill(2) for i in numbers.findall(some_list[index])])
+                try:
+                    result.extend([a1[i]+n1[i] for i in range(len(a1))if a1[i]+n1[i] not in result])
+                except IndexError:
+                    pass
             else:
-                new_numbers = str(int(numbers)+1)
-                new_list.append(letters + new_numbers)
-        elif re.match('[a-z]{3}[0-9]', item) or re.match('[a-z]{3}[0-9]{2}', item):
-            letters = item[0:3]
-            numbers = int(item[3:])
-            new_numbers = str(numbers + 1)
-            new_list.append(letters + new_numbers)
-        elif re.match('[a-z][0-9]{2}[a-z][0-9]{2}', item):
-            first_letter = item[0]
-            first_number = item[1:3]
-            second_letter = item[3]
-            last_number = item[4:]
-            new_list.append(first_letter + str(int(first_number) + 1)
-                            + second_letter + str(int(last_number) + 1))
-        elif re.match('[a-z][0-9]', item):
-            letters = item[0]
-            numbers = item[1]
-            new_list.append(letters + str(int(numbers) + 1))
-    return new_list
+                # This handles everything else that isn't odd in some way.
+                a.extend([ a for a in letters.findall(some_list[index])])
+                n.extend([str(int(i) + 1) for i in numbers.findall(some_list[index])])
+                result.extend([a[i]+n[i] for i in range(len(a)) if a[i]+n[i] not in result])
+    return result
