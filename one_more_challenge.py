@@ -50,8 +50,5 @@ def str_to_str(some_list):
                 # This handles everything else that isn't odd in some way.
                 a0.extend([ a for a in letters.findall(some_list[index])])
                 n0.extend([str(int(i) + 1) for i in numbers.findall(some_list[index])])
-                try:
-                    result.extend([a0[i]+n0[i] for i in range(len(a0)) if a0[i]+n0[i] not in result])
-                except IndexError:
-                    pass
+                result.extend([a0[i]+n0[i] for i in range(len(a0)) if a0[i]+n0[i] not in result])
     return result
