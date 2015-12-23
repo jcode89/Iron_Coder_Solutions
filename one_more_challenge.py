@@ -31,7 +31,7 @@ def add_one(some_list):
                         # to type str before adding them to new_list.
                         new_list.append(letters + str(0) + str(int(numbers) + 1))
                     # To catch and handle the tricky part of level 3.
-                    elif numbers == "99ef11":
+                    elif re.match('[0-9]{2}[a-z]{2}[0-9]{2}' ,numbers):
                         first = item[0:2]
                         nums = item[2:4]
                         more_letters = item[4:6]
@@ -46,6 +46,17 @@ def add_one(some_list):
                     numbers = int(item[3:])
                     new_numbers = str(numbers + 1)
                     new_list.append(letters + new_numbers)
+                elif re.match('[a-z][0-9]{2}[a-z][0-9]{2}', item):
+                    first_letter = item[0]
+                    first_number = item[1:3]
+                    second_letter = item[3]
+                    last_number = item[4:]
+                    new_list.append(first_letter + str(int(first_number) + 1)
+                                    + second_letter + str(int(last_number) + 1))
+                elif re.match('[a-z][0-9]', item):
+                    letters = item[0]
+                    numbers = item[1]
+                    new_list.append(letters + str(int(numbers) + 1))
             return new_list
 
 
